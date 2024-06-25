@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Scootrepair</title>
+  <link rel="stylesheet" href="./../css/styles.css">
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<div class="signup-container">
+  <h2>Sign Up</h2>
+  <form id="signup-form">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+    <span id="password-error" class="error" style="display: none;">Passwords do not match</span>
+    <input type="email" id="email" placeholder="Email" required>
+    <span id="email-error" class="error" style="display: none;">Invalid email</span>
+    <input type="tel" id="phone" placeholder="Phone" required>
+    <span id="phone-error" class="error" style="display: none;">Invalid phone number</span>
+    <input type="text" id="address" placeholder="Address" required>
+    <button type="submit">Sign Up</button>
+  </form>
+</div>
+<script>
+  const password = document.getElementById('password');
+  const confirmPassword = document.getElementById('confirm-password');
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const passwordError = document.getElementById('password-error');
+  const emailError = document.getElementById('email-error');
+  const phoneError = document.getElementById('phone-error');
+
+  function validatePassword() {
+    if (password.value !== confirmPassword.value) {
+      passwordError.style.display = 'block';
+    } else {
+      passwordError.style.display = 'none';
+    }
+  }
+
+  function validateEmail() {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email.value)) {
+      emailError.style.display = 'block';
+    } else {
+      emailError.style.display = 'none';
+    }
+  }
+
+  function validatePhone() {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone.value)) {
+      phoneError.style.display = 'block';
+    } else {
+      phoneError.style.display = 'none';
+    }
+  }
+
+  password.oninput = validatePassword;
+  confirmPassword.oninput = validatePassword;
+  email.oninput = validateEmail;
+  phone.oninput = validatePhone;
+
+  document.getElementById('signup-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password, email, phone, address }),
+    })
+      .then(response => response.text())
+      .then(data => {
+        if (data === 'User registered successfully') {
+          alert('User registered successfully');
+          // Redirect to the login page
+          window.location.href = 'login.html';
+        } else {
+          alert('Error registering user');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+</script>
+</body>
+</html>
