@@ -1,0 +1,71 @@
+/* styles.css */
+body {
+  background-color: #006400;
+  font-family: Arial, sans-serif;
+}
+
+.login-container, .view-reviews-container, .signup-container, .submit-review-container, .appointments-container, .home-container {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #A5B0A5;
+  color: #FFFFF0;
+  border-radius: 10px;
+}
+
+#login-form input, #signup-form input, #submit-review-form input, #submit-review-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#login-form button, #signup-form button, #submit-review-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #006400;
+  color: #FFFFF0;
+  border: none;
+  cursor: pointer;
+}
+
+.review {
+  border: 1px solid #A5B0A5;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.appointment {
+  border: 1px solid #A5B0A5;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.navigation a {
+  display: block;
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin: 10px auto;
+  background-color: #006400;
+  color: #FFFFF0;
+  text-decoration: none;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #A5B0A5;
+  color: #FFFFF0;
+  text-align: center;
+  padding: 10px 0;
+}
+
+body {
+  /* Add your CSS here */
+  background-image: url('./../assets/background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
