@@ -1,0 +1,45 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Scootrepair</title>
+  <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+<div class="login-container">
+  <h2>Login</h2>
+  <form id="login-form">
+    <label for="username"></label><input type="text" id="username" placeholder="Username" required>
+    <label for="password"></label><input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+</div>
+<script>document.getElementById('login-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password }),
+  })
+    .then(response => response.text())
+    .then(data => {
+      if (data === 'Login successful') {
+        window.location.href = 'home.html';
+      } else {
+        alert('Invalid credentials');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+});</script>
+</body>
+</html>
