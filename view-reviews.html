@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scootrepair</title>
+  <link rel="stylesheet" href="./../css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .view-reviews-container {
+      text-align: center;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .view-reviews-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .review {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .review h3 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    .review h4 {
+      margin: 10px 0;
+      color: #666;
+    }
+    .review p {
+      margin-bottom: 0;
+    }
+    #homeButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #007bff;
+      transition: color 0.3s ease;
+    }
+    #homeButton:hover {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<button id="homeButton" onclick="location.href='home.html'">
+  <i class="fas fa-home"></i>
+</button>
+<div class="view-reviews-container">
+  <h2>View Reviews</h2>
+  <div id="reviews"></div>
+</div>
+<script>
+  window.onload = function() {
+    fetch('http://localhost:3000/technicians') // fetch all technicians
+      .then(response => response.json())
+      .then(technicians => {
+        technicians.forEach(technician => {
+          fetch('http://localhost:3000/reviews/' + technician.id) // fetch reviews for each technician
+            .then(response => response.json())
+            .then(reviews => {
+              const reviewsContainer = document.getElementById('reviews');
+              reviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review';
+                reviewElement.innerHTML = `
+                  <h3>Technician: ${technician.name}</h3>
+                  <h4>Rating: ${review.rating} / 5</h4>
+                  <p>${review.review_text}</p>
+                `;
+                reviewsContainer.appendChild(reviewElement);
+              });
+            })
+            .catch(error => console.error('Error:', error));
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  };
+</script>
+</body>
+</html>
