@@ -3,11 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - Scootrepair</title>
+  <title>Scootrepair</title>
   <link rel="stylesheet" href="./../css/styles.css">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .signup-container {
+      text-align: center;
+      max-width: 300px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .signup-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .signup-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .signup-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .signup-container button:hover {
+      background-color: #0056b3;
+    }
     .error {
       color: red;
+      display: none;
     }
   </style>
 </head>
@@ -16,13 +61,15 @@
   <h2>Sign Up</h2>
   <form id="signup-form">
     <input type="text" id="username" placeholder="Username" required>
+    <span id="username-error" class="error">Username already taken</span>
     <input type="password" id="password" placeholder="Password" required>
     <input type="password" id="confirm-password" placeholder="Confirm Password" required>
-    <span id="password-error" class="error" style="display: none;">Passwords do not match</span>
+    <span id="password-error" class="error">Passwords do not match</span>
     <input type="email" id="email" placeholder="Email" required>
-    <span id="email-error" class="error" style="display: none;">Invalid email</span>
+    <span id="email-error" class="error">Invalid email</span>
+    <span id="email-taken-error" class="error">Email already taken</span>
     <input type="tel" id="phone" placeholder="Phone" required>
-    <span id="phone-error" class="error" style="display: none;">Invalid phone number</span>
+    <span id="phone-error" class="error">Invalid phone number</span>
     <input type="text" id="address" placeholder="Address" required>
     <button type="submit">Sign Up</button>
   </form>
@@ -34,6 +81,8 @@
   const phone = document.getElementById('phone');
   const passwordError = document.getElementById('password-error');
   const emailError = document.getElementById('email-error');
+  const emailTakenError = document.getElementById('email-taken-error');
+  const usernameError = document.getElementById('username-error');
   const phoneError = document.getElementById('phone-error');
 
   function validatePassword() {
@@ -83,17 +132,33 @@
       },
       body: JSON.stringify({ username, password, email, phone, address }),
     })
-      .then(response => response.text())
-      .then(data => {
-        if (data === 'User registered successfully') {
-          alert('User registered successfully');
-          // Redirect to the login page
-          window.location.href = 'login.html';
-        } else {
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => { throw new Error(text) });
+        }
+        return response.text();
+      })
+      .then(id => {
+        id = +id;
+        if (isNaN(id)) {
           alert('Error registering user');
+        } else {
+          alert('User registered successfully');
+          localStorage.setItem('userId', id);
+          window.location.href = 'home.html';
         }
       })
       .catch((error) => {
+        if (error.message === 'Username already taken') {
+          usernameError.style.display = 'block';
+        } else {
+          usernameError.style.display = 'none';
+        }
+        if (error.message === 'Email already taken') {
+          emailTakenError.style.display = 'block';
+        } else {
+          emailTakenError.style.display = 'none';
+        }
         console.error('Error:', error);
       });
   });
