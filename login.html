@@ -1,45 +1,110 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Scootrepair</title>
+  <title>Scootrepair</title>
   <link rel="stylesheet" href="./../css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .logo {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+    .login-container {
+      text-align: center;
+      max-width: 300px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .login-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .login-container button:hover {
+      background-color: #0056b3;
+    }
+    .login-container p {
+      margin-top: 10px;
+    }
+    .login-container a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+<img src="./../assets/logo.jpeg" alt="Scootrepair Logo" class="logo">
 <div class="login-container">
   <h2>Login</h2>
   <form id="login-form">
-    <label for="username"></label><input type="text" id="username" placeholder="Username" required>
-    <label for="password"></label><input type="password" id="password" placeholder="Password" required>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
+  <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
 </div>
-<script>document.getElementById('login-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+<script>
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-  fetch('http://localhost:3000/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  })
-    .then(response => response.text())
-    .then(data => {
-      if (data === 'Login successful') {
-        window.location.href = 'home.html';
-      } else {
-        alert('Invalid credentials');
-      }
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-});</script>
+      .then(response => response.json())
+      .then(idObject => {
+        const id = idObject.id;
+        if (id) {
+          localStorage.setItem('userId', id);
+          window.location.href = 'home.html';
+        } else {
+          alert('Invalid credentials');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+</script>
 </body>
 </html>
