@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scootrepair</title>
+  <link rel="stylesheet" href="./../css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+    }
+    .home-container {
+      text-align: center;
+      padding-top: 20px;
+    }
+    .home-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .home-container p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    .navigation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .navigation a {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 20px 40px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #28a745;
+      border: 1px solid #28a745;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 1.2em;
+      width: 200px;
+      text-align: center;
+    }
+    .navigation a:hover {
+      background-color: #218838;
+      color: #fff;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+    #homeButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #007bff;
+      transition: color 0.3s ease;
+    }
+    #homeButton:hover {
+      color: #0056b3;
+    }
+    #logo {
+      max-width: 20%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    #logoutButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    #logoutButton:hover {
+      background-color: #e60000;
+    }
+  </style>
+</head>
+<body>
+<button id="homeButton" onclick="location.href='home.html'">
+  <i class="fas fa-home"></i>
+</button>
+<img id="logo" src="./../assets/logo.jpeg" alt="Scootrepair Logo">
+<div class="home-container">
+  <h2>Welcome to Scootrepair!</h2>
+  <p>We provide the best scooter repair services.</p>
+  <div class="navigation">
+    <a href="appointments.html">My Appointments</a>
+    <a href="submit-review.html">Submit Review</a>
+    <a href="view-reviews.html">View Reviews</a>
+    <a href="customer-service.html">Customer Service</a>
+  </div>
+</div>
+<button id="logoutButton">Logout</button>
+<footer>
+  <a href="#">Accessibility Statement</a>
+  <p>All rights reserved to Scootrepair 2024©</p>
+</footer>
+
+<script>
+  document.getElementById('logoutButton').addEventListener('click', function() {
+    localStorage.removeItem('userId');
+    window.location.href = 'login.html';
+  });
+</script>
+
+</body>
+</html>
