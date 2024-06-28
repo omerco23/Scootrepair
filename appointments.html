@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scootrepair</title>
+  <link rel="stylesheet" href="./../css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .appointments-container {
+      text-align: center;
+    }
+    .appointments-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .appointment {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #homeButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #007bff;
+      transition: color 0.3s ease;
+    }
+    #homeButton:hover {
+      color: #0056b3;
+    }
+    .no-appointments {
+      font-style: italic;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+<button id="homeButton" onclick="location.href='home.html'">
+  <i class="fas fa-home"></i>
+</button>
+<div class="appointments-container">
+  <h2>My Appointments</h2>
+  <div id="appointments"></div>
+</div>
+<script>
+  window.onload = function () {
+    const userId = localStorage.getItem('userId');
+    fetch('http://localhost:3000/appointments/' + userId)
+      .then(response => response.json())
+      .then(appointments => {
+        const appointmentsContainer = document.getElementById('appointments');
+        fetch('http://localhost:3000/technicians')
+          .then(response => response.json())
+          .then(technicians => {
+            if (appointments.length === 0) {
+              const noAppointmentsMessage = document.createElement('p');
+              noAppointmentsMessage.className = 'no-appointments';
+              noAppointmentsMessage.textContent = 'No appointments available';
+              appointmentsContainer.appendChild(noAppointmentsMessage);
+            } else {
+              appointments.forEach(appointment => {
+                const relevantTechnician = technicians.find(technician => technician.id == appointment.technician_id);
+                if (relevantTechnician) {
+                  const appointmentElement = document.createElement('div');
+                  appointmentElement.className = 'appointment';
+                  appointmentElement.innerHTML = `
+                    <h3>Appointment with ${relevantTechnician.name}</h3>
+                    <p>Date: ${new Date(appointment.appointment_date).toLocaleDateString()}</p>
+                  `;
+                  appointmentsContainer.appendChild(appointmentElement);
+                }
+              });
+            }
+          });
+      })
+      .catch(error => console.error('Error:', error));
+  };
+</script>
+</body>
+</html>
