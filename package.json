@@ -1,0 +1,28 @@
+{
+  "name": "scootrepair",
+  "version": "1.0.0",
+  "main": "js/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node js/server.js"
+  },
+  "license": "",
+  "author": "",
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "install": "^0.13.0",
+    "intercom-client": "^5.0.0",
+    "knex": "^3.1.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.3.2",
+    "npm": "^10.7.0"
+  }
+}
