@@ -1,0 +1,47 @@
+CREATE DATABASE Scootrepair;
+
+USE Scootrepair;
+
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    address VARCHAR(255)
+);
+
+CREATE TABLE Conversations (
+    id INT PRIMARY KEY,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE Technicians (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    expertise VARCHAR(50),
+    years_of_experience INT,
+    phone VARCHAR(15),
+    availability VARCHAR(50)
+);
+
+
+CREATE TABLE Appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    technician_id INT,
+    appointment_date DATE,
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    FOREIGN KEY (technician_id) REFERENCES Technicians(id)
+);
+
+CREATE TABLE Reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    technician_id INT,
+    review_text TEXT,
+    rating INT,
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    FOREIGN KEY (technician_id) REFERENCES Technicians(id)
+);
