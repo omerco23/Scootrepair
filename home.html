@@ -93,6 +93,7 @@
     #logoutButton:hover {
       background-color: #e60000;
     }
+
   </style>
 </head>
 <body>
@@ -108,11 +109,12 @@
     <a href="submit-review.html">Submit Review</a>
     <a href="view-reviews.html">View Reviews</a>
     <a href="customer-service.html">Customer Service</a>
+    <a id="payment" href="#">Payments</a>
   </div>
 </div>
 <button id="logoutButton">Logout</button>
 <footer>
-  <a href="#">Accessibility Statement</a>
+  <div style="justify-content: center;text-align: center;"><a id="statement"href="#">Accessibility Statement</a></div>
   <p>All rights reserved to Scootrepair 2024©</p>
 </footer>
 
@@ -121,6 +123,11 @@
     localStorage.removeItem('userId');
     window.location.href = 'login.html';
   });
+  document.getElementById('payment').addEventListener('click',function (){
+    alert('This page is not functionable \nCredit card deatils needed, you will be redirected to the payment page')});
+  document.getElementById('statement').addEventListener('click',function (){
+    alert('Not clickable')});
+
 </script>
 
 </body>
