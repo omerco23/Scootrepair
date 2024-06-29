@@ -4,6 +4,7 @@ export const INTERCOM_CONFIG = {
   userId: '****',
   contactId: '****'
 }
+//intercom configuration - adminId, token, userId, contactId are confidential documents, the credentials are the developers property
 
 export const TECH_REQUIRED_ANSWER = "The problem requires professional attention from a certified tech.";
 
